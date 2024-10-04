@@ -1,0 +1,79 @@
+---
+title: "Untitled"
+format: html
+---
+
+##Set up
+```{r}
+rm(list = ls())
+library(tidyverse)
+library(here)
+library(dplyr)
+```
+
+##Read in Data
+```{r}
+drug_resistance_df <- read.csv(here("data", "drug_resistance.csv"))
+
+glimpse(drug_resistance_df)
+str(drug_resistance_df)
+```
+
+##Change treatment to a factor
+```{r}
+drug_resistance_df$Treatment <- as.factor(drug_resistance_df$Treatment)
+levels(drug_resistance_df$Treatment)
+```
+
+##Fix the treatment variable
+#use  `which()` to do so
+```{r}
+fix <- which(drug_resistance_df$Treatment %in% c("cantrol", 
+                                                 "control",    #ID the rows that 
+                                                 "Control"))  #need repaired
+
+drug_resistance_df$Treatment[fix] <- "control"
+levels(drug_resistance_df$Treatment)
+drug_resistance_df$Treatment <- factor(drug_resistance_df$Treatment)
+
+
+fix2 <- which(drug_resistance_df$Treatment %in% c("drug x 2",
+                                                  "drug2",
+                                                  "Drugx2"))
+
+drug_resistance_df$Treatment[fix2] <- "drug x 2"
+drug_resistance_df$Treatment <- factor(drug_resistance_df$Treatment)
+levels(drug_resistance_df$Treatment)
+
+fix3 <- which(drug_resistance_df$Treatment %in% c("drug x 3",
+                                                  "Drug x 3",
+                                                  "drug3"))
+
+drug_resistance_df$Treatment[fix3] <- "drug x 3"
+drug_resistance_df$Treatment <- factor(drug_resistance_df$Treatment)
+levels(drug_resistance_df$Treatment)
+
+```
+
+##Fix the tech.name variable the same way
+```{r}
+drug_resistance_df$tech.name <- as.factor(drug_resistance_df$tech.name)
+levels(drug_resistance_df$tech.name)
+
+fix4 <- which(drug_resistance_df$tech.name %in% c("becca",
+                                                  "Becca"))
+
+drug_resistance_df$tech.name[fix4] <- "Becca"
+drug_resistance_df$tech.name <- factor(drug_resistance_df$tech.name)
+levels(drug_resistance_df$tech.name)
+
+fix5 <- which(drug_resistance_df$tech.name %in% c("brain",
+                                                  "brian",
+                                                  "Brian"))
+
+drug_resistance_df$tech.name[fix5] <- "Brian"
+drug_resistance_df$tech.name <- factor(drug_resistance_df$tech.name)
+levels(drug_resistance_df$tech.name)
+
+```
+
