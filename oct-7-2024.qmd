@@ -35,3 +35,22 @@ tomatoes$Plant_number <- as.factor(tomatoes$Plant_number)
 glimpse(tomatoes)
 ```
 
+#Look at summary function
+```{r}
+test <- c(2, 4, 6, 8, 10, 12, 14, 16, 18, 20)
+summary(test)
+```
+
+```{r}
+grades <- c(90, 94, 96, 90, 84, 86)
+summary(grades)
+
+#use quantile for custom distributions in data
+quantile(grades, probs = c(0, 0.25, 0.5, 0.75, 1))
+```
+
+#dplyr practice
+```{r}
+tomatoes |> select(Num_flowers)
+```
+
