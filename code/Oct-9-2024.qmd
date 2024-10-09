@@ -1,0 +1,45 @@
+---
+title: "Oct-9-2024"
+format: html
+---
+
+#set up
+```{r}
+rm(list = ls())
+library(tidyverse)
+library(here)
+```
+
+#read in tomato data
+```{r}
+tomatoes <- read.csv(here("data", "tomato_data.csv"))
+glimpse(tomatoes)
+```
+
+#reformat tomato data
+```{r}
+tomatoes$Treatment <- as.factor(tomatoes$Treatment)
+levels(tomatoes$Treatment)
+
+fix <- which(tomatoes$Treatment == "control")
+tomatoes$Treatment[fix] <- "Control"
+
+fix2 <- which(tomatoes$Treatment == "fertilizer")
+tomatoes$Treatment[fix2] <- "Fertilizer"
+
+tomatoes$Treatment <- factor(tomatoes$Treatment)
+levels(tomatoes$Treatment)
+
+tomatoes$Plant_number <- as.factor(tomatoes$Plant_number)
+```
+
+#Warm-up exercises
+```{r}
+tomatoes |> slice(c(3, 7, 9))
+
+tomatoes |> 
+  filter(Treatment == "Fertilizer", 
+         Avg_tomato_weight_g >= 145)
+  
+```
+
