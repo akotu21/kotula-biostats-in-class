@@ -16,7 +16,7 @@ tomatoes <- read.csv(here("data", "tomato_data.csv"))
 glimpse(tomatoes)
 ```
 
-#reformat tomato data
+#fix treatment levels
 ```{r}
 tomatoes$Treatment <- as.factor(tomatoes$Treatment)
 levels(tomatoes$Treatment)
@@ -35,11 +35,54 @@ tomatoes$Plant_number <- as.factor(tomatoes$Plant_number)
 
 #Warm-up exercises
 ```{r}
-tomatoes |> slice(c(3, 7, 9))
+#return the 3rd, 7th, and 9th rows of data
+tomatoes |> slice(c(3, 7, 9)) |> View()
 
+#return all tomatoes from the fertilizer treatment that 
+#weigh greater than or equal to 145g
 tomatoes |> 
   filter(Treatment == "Fertilizer", 
          Avg_tomato_weight_g >= 145)
   
+```
+
+
+
+#save changes 
+make the output folder
+```{r}
+#dir.create(here("Outputs"))
+```
+
+save the file
+```{r}
+write.csv(tomatoes, here("Outputs", "tomatoes_fixed.csv"), row.names = F)
+```
+
+```{r}
+toms2 <- read.csv(here("Outputs", "tomatoes_fixed.csv"))
+```
+
+#Working with lead data
+```{r}
+lead <- read.csv(here("data", "NoCoLead.csv"))
+head(lead)
+summary(lead)
+```
+
+Avg number of tests given in the data set
+```{r}
+lead |>
+  summarise(mean_num_tests = mean(num_tests)) |>
+  View()
+```
+
+Mean number of tests per year
+```{r}
+lead |>
+  group_by(Year) |>
+  summarise(mean_num_tests =
+              mean(num_tests)) |>
+  View()
 ```
 
