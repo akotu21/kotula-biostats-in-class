@@ -1,0 +1,54 @@
+---
+title: "4-nov-2024"
+format: html
+---
+
+```{r}
+rm(list = ls())
+library(tidyverse)
+library(here)
+library(ggfortify)
+```
+
+```{r}
+tree_dbh <- read.csv(here("data", "Forest_Tree_DBH_F21.csv"))
+glimpse(tree_dbh)
+
+tree_dbh$Forest <- as.factor(tree_dbh$Forest)
+tree_dbh$Quadrant <- as.factor(tree_dbh$Quadrant)
+tree_dbh$Date <- dmy(tree_dbh$Date)
+```
+
+```{r}
+ggplot(tree_dbh, aes(x = Forest, y = DBH_cm))+
+  geom_boxplot()+
+  geom_jitter(width = 0.1)+
+  theme_bw()+
+  coord_flip()
+```
+
+```{r}
+tree_model <- lm(DBH_cm ~ Forest, tree_dbh)
+
+autoplot(tree_model)
+```
+
+```{r}
+anova(tree_model)
+
+summary(tree_model)
+```
+
+### post hoc tests
+```{r}
+library(multcomp)
+```
+
+conduct a Tukey's HSD (honestly significant differences) test
+z
+```{r}
+phc1 <- glht(tree_model, linfct = mcp(Forest = "Tukey"))
+summary(phc1)
+
+cld(phc1)
+```
